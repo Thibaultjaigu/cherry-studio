@@ -21,13 +21,15 @@ export const TOKENFLUX_HOST = 'https://tokenflux.ai'
 export const INITIAL_MESSAGES_COUNT = 20
 export const LOAD_MORE_COUNT = 20
 
-export const DEFAULT_COLOR_PRIMARY = '#00b96b'
+export const DEFAULT_COLOR_PRIMARY = '#009FFF'
 export const THEME_COLOR_PRESETS = [
-  DEFAULT_COLOR_PRIMARY,
-  '#EF4444', // Red
-  '#F59E0B', // Amber
-  '#3B82F6', // Blue
-  '#8B5CF6' // Purple
+  DEFAULT_COLOR_PRIMARY, // Light blue
+  '#65D46D', // Green
+  '#E15456', // Red
+  '#F19A29', // Orange
+  '#0091FF', // Blue
+  '#8089F3', // Purple
+  '#FB83F3' // Pink
 ]
 
 export const MAX_CONTEXT_COUNT = 100
