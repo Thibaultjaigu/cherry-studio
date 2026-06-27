@@ -1,4 +1,26 @@
 import { usePreference } from '@data/hooks/usePreference'
+import agentsDark from '@renderer/assets/images/launchpad/agents-dark.png'
+import agentsLight from '@renderer/assets/images/launchpad/agents-light.png'
+import appsDark from '@renderer/assets/images/launchpad/apps-dark.png'
+import appsLight from '@renderer/assets/images/launchpad/apps-light.png'
+import chatDark from '@renderer/assets/images/launchpad/chat-dark.png'
+import chatLight from '@renderer/assets/images/launchpad/chat-light.png'
+import codeDark from '@renderer/assets/images/launchpad/code-dark.png'
+import codeLight from '@renderer/assets/images/launchpad/code-light.png'
+import creationDark from '@renderer/assets/images/launchpad/creation-dark.png'
+import creationLight from '@renderer/assets/images/launchpad/creation-light.png'
+import fileDark from '@renderer/assets/images/launchpad/file-dark.png'
+import fileLight from '@renderer/assets/images/launchpad/file-light.png'
+import knowledgeDark from '@renderer/assets/images/launchpad/knowledge-dark.png'
+import knowledgeLight from '@renderer/assets/images/launchpad/knowledge-light.png'
+import libraryDark from '@renderer/assets/images/launchpad/library-dark.png'
+import libraryLight from '@renderer/assets/images/launchpad/library-light.png'
+import noteDark from '@renderer/assets/images/launchpad/note-dark.png'
+import noteLight from '@renderer/assets/images/launchpad/note-light.png'
+import openclawDark from '@renderer/assets/images/launchpad/openclaw-dark.png'
+import openclawLight from '@renderer/assets/images/launchpad/openclaw-light.png'
+import translateDark from '@renderer/assets/images/launchpad/translate-dark.png'
+import translateLight from '@renderer/assets/images/launchpad/translate-light.png'
 import { CommandContextMenu, type CommandContextMenuExtraItem } from '@renderer/components/command'
 import App from '@renderer/components/MiniApp/MiniApp'
 import Scrollbar from '@renderer/components/Scrollbar'
@@ -34,6 +56,33 @@ const APP_ICON_BACKGROUNDS: Record<SidebarIcon, string> = {
   code_tools: 'linear-gradient(135deg, #1F2937, #374151)',
   notes: 'linear-gradient(135deg, #F97316, #FB923C)',
   openclaw: 'linear-gradient(135deg, #EF4444, #B91C1C)'
+}
+
+const LAUNCHPAD_ICON_IMAGES: Partial<Record<SidebarIcon, { light: string; dark: string }>> = {
+  assistants: { light: chatLight, dark: chatDark },
+  agents: { light: agentsLight, dark: agentsDark },
+  mini_app: { light: appsLight, dark: appsDark },
+  code_tools: { light: codeLight, dark: codeDark },
+  paintings: { light: creationLight, dark: creationDark },
+  store: { light: libraryLight, dark: libraryDark },
+  knowledge: { light: knowledgeLight, dark: knowledgeDark },
+  files: { light: fileLight, dark: fileDark },
+  notes: { light: noteLight, dark: noteDark },
+  openclaw: { light: openclawLight, dark: openclawDark },
+  translate: { light: translateLight, dark: translateDark }
+}
+
+const LAUNCHPAD_ICON_LABELS: Partial<Record<SidebarIcon, string>> = {
+  assistants: 'Chat',
+  agents: 'Agents',
+  mini_app: 'Apps',
+  code_tools: 'Code',
+  paintings: 'Creation',
+  store: 'Library',
+  knowledge: 'Knowledge',
+  files: 'File',
+  notes: 'Note',
+  translate: 'Translate'
 }
 
 function insertSidebarIconByCanonicalOrder(favorites: SidebarIcon[], icon: SidebarIcon) {
@@ -162,7 +211,8 @@ export default function LaunchpadPage() {
       {
         id: icon,
         icon: <Icon size={32} />,
-        text: t(getSidebarIconLabelKey(icon)),
+        image: LAUNCHPAD_ICON_IMAGES[icon],
+        text: LAUNCHPAD_ICON_LABELS[icon] ?? t(getSidebarIconLabelKey(icon)),
         bgColor: APP_ICON_BACKGROUNDS[icon],
         menuItems: getAppContextMenuItems(icon)
       }
@@ -197,11 +247,22 @@ export default function LaunchpadPage() {
                     onClick={() => openLaunchpadItem(item.id)}
                     className="group flex cursor-pointer flex-col items-center gap-1 rounded-2xl px-1 py-2 text-center outline-none transition-transform duration-200 hover:scale-105 focus-visible:scale-105 active:scale-95">
                     <span className="relative flex size-14 items-center justify-center">
-                      <span
-                        className="flex size-14 items-center justify-center rounded-2xl text-white shadow-sm [&_svg]:size-7 [&_svg]:text-white"
-                        style={{ background: item.bgColor }}>
-                        {item.icon}
-                      </span>
+                      {item.image ? (
+                        <>
+                          <img src={item.image.light} alt="" className="size-14 rounded-2xl shadow-sm dark:hidden" />
+                          <img
+                            src={item.image.dark}
+                            alt=""
+                            className="hidden size-14 rounded-2xl shadow-sm dark:block"
+                          />
+                        </>
+                      ) : (
+                        <span
+                          className="flex size-14 items-center justify-center rounded-2xl text-white shadow-sm [&_svg]:size-7 [&_svg]:text-white"
+                          style={{ background: item.bgColor }}>
+                          {item.icon}
+                        </span>
+                      )}
                     </span>
                     <span className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-[12px] text-foreground">
                       {item.text}
